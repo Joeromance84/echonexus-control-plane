@@ -1,0 +1,26 @@
+artifacts:
+  objects:
+    location: gs://${_BUCKET_NAME}/builds/${BUILD_ID}
+    paths:
+    - '*.apk'
+steps:
+- args:
+  - clone
+  - https://github.com/${_REPO_OWNER}/${_REPO_NAME}.git
+  - .
+  name: gcr.io/cloud-builders/git
+- args:
+  - build
+  - -t
+  - gcr.io/${PROJECT_ID}/apk-builder
+  - .
+  name: gcr.io/cloud-builders/docker
+- args:
+  - buildozer
+  - android
+  - debug
+  name: gcr.io/${PROJECT_ID}/apk-builder
+substitutions:
+  _BUCKET_NAME: echonexus-builds
+  _REPO_NAME: ${repo_name}
+  _REPO_OWNER: ${github_user}
