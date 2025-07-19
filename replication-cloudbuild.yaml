@@ -1,0 +1,22 @@
+steps:
+- args:
+  - clone
+  - --recursive
+  - https://github.com/${_REPO_OWNER}/${_REPO_NAME}.git
+  - .
+  name: gcr.io/cloud-builders/git
+- args:
+  - replication/self_replication_engine.py
+  - --target=google_cloud
+  entrypoint: python
+  name: python:3.11
+- args:
+  - cp
+  - -r
+  - .echo_replication/*
+  - gs://${_REPLICATION_BUCKET}/
+  name: gcr.io/cloud-builders/gsutil
+substitutions:
+  _REPLICATION_BUCKET: echonexus-replication
+  _REPO_NAME: ${repo_name}
+  _REPO_OWNER: ${github_user}
