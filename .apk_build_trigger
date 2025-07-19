@@ -1,0 +1,4 @@
+# APK Build Trigger
+# This file triggers the APK packaging workflow
+TRIGGER_TIME=Sat Jul 19 09:17:58 AM UTC 2025
+BUILD_TRIGGER=apk_package_action
