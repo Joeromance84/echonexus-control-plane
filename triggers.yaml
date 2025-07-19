@@ -1,0 +1,21 @@
+triggers:
+- description: Automated APK building on code changes
+  filename: cloudbuild.yaml
+  github:
+    name: ${_REPO_NAME}
+    owner: joeromance84
+    push:
+      branch: ^main$
+  name: apk-build-trigger
+  substitutions:
+    _TRIGGER_TYPE: apk_build
+- description: Self-replication deployment trigger
+  filename: replication-cloudbuild.yaml
+  github:
+    name: ${_REPO_NAME}
+    owner: joeromance84
+    push:
+      branch: ^replication$
+  name: self-replication-trigger
+  substitutions:
+    _TRIGGER_TYPE: self_replication
